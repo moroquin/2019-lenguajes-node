@@ -1,5 +1,5 @@
 //imports 
-
+const path = require('path');
 const express = require ('express');
 const app = express();
 
@@ -7,19 +7,18 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set('views',__dirname+'/views');
 app.set('port', 3000);
+app.set('views', path.join(__dirname,'views'));
+
+
+app.use(express.static(path.join(__dirname,'public')));
 
 //rutas
-app.get('/',(req,res) => {
-    res.render('index',{max:15});
-});
-
-app.get('/hola',(req,res) => {
-    res.sendFile(__dirname+'/views/saludo.html');
-});
-
+app.use(require ('./routes/index'));
 //escucha
 app.listen(app.get('port'), ()=>{
-    console.log(__dirname);
+    
     console.log('escuchando en el puerto ',app.get('port') );
 });
+
+console.log(path.join(__dirname,'/views/saludo.html'));
 
